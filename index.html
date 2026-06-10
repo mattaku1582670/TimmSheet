@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timmerman Tables Viewer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232563eb'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='monospace'%3ET%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-top">
+      <div>
+        <h1 class="app-title">Timmerman Tables Viewer</h1>
+        <p class="app-subtitle">Timmerman R. IJROBP 2022;112(1):4-21（ver 8-2021）</p>
+      </div>
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="ダークモード切替" title="ダークモード切替">☀️</button>
+    </div>
+  </header>
+
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" role="tab" data-tab="matrix" aria-selected="true">マトリクス</button>
+    <button class="tab-btn" role="tab" data-tab="glossary" aria-selected="false">用語集約</button>
+  </nav>
+
+  <div class="main-scroll">
+    <main class="tab-content">
+      <section id="tab-matrix" class="tab-panel active" role="tabpanel"></section>
+      <section id="tab-glossary" class="tab-panel" role="tabpanel"></section>
+    </main>
+
+    <footer class="app-footer">
+      <div id="footer-notes"></div>
+      <p class="footer-warning">
+        ⚠️ 制約値は技術・手法に依存し将来変わりうる（著者自身が論文中で言及）。
+        和訳・Endpoint訳は参考。臨床判断は原論文・施設プロトコルに従うこと。
+      </p>
+      <p class="footer-ls-note">
+        ※ ローカル編集はこのブラウザの localStorage に保存されます。
+        他のPCへの共有は「data.js を生成」ボタンでファイルを差し替えてください。
+      </p>
+    </footer>
+  </div>
+
+  <!-- 編集モーダル（editor.js が生成） -->
+  <div id="editor-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title"></div>
+  <div id="modal-overlay" class="modal-overlay hidden"></div>
+
+  <!-- script読み込み順: 依存順 -->
+  <script src="docs/data.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/view-matrix.js"></script>
+  <script src="js/view-glossary.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
