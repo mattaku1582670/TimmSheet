@@ -36,8 +36,8 @@ function buildCellContent(td, frData, skipVolume) {
   var lines = [];
 
   if (frData.volume === "Mean dose") {
-    if (frData.volMax != null) lines.push("Mean≤" + frData.volMax + "Gy");
-    if (frData.maxPoint != null) lines.push("Max:" + frData.maxPoint + "Gy");
+    if (frData.volMax != null) lines.push("Mean" + frData.volMax + "Gy");
+    if (frData.maxPoint != null) lines.push("Max: " + frData.maxPoint + "Gy");
   } else {
     var volStages = parseVolumeStages(frData.volume || "");
     var volMaxParts = frData.volMax != null
@@ -66,7 +66,7 @@ function buildCellContent(td, frData, skipVolume) {
       }
     }
 
-    if (frData.maxPoint != null) lines.push("Max:" + frData.maxPoint + "Gy");
+    if (frData.maxPoint != null) lines.push("Max: " + frData.maxPoint + "Gy");
   }
 
   if (lines.length === 0) {

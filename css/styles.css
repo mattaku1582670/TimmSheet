@@ -242,7 +242,7 @@ body {
 .cell-value { font-size: 0.8rem; }
 
 /* 複数行セル */
-.cell-multi { font-size: 0.7rem; line-height: 1.5; }
+.cell-multi { font-size: 0.8rem; line-height: 1.5; }
 
 /* 詳細展開行 */
 .detail-row td {

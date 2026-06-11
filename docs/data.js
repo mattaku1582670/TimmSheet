@@ -18,13 +18,9 @@ window.TIMMERMAN_DATA = {
     ],
     "pointDef": "Max point dose の「point」は ≤0.035 cm³ と定義（短分割テーブル）",
     "notes": [
-      "本データは Timmerman 2021 論文の制約表（ver 8-2021）を転記したもの。",
-      "制約値は技術・手法に依存し将来変わりうる（著者自身が論文中で言及）。",
-      "和訳・Endpoint日本語訳は参考。臨床判断は原論文・施設プロトコルに従うこと。",
-      "Volume max / Max point dose が複数段階の臓器は ' / ' 区切りで併記。",
       "Lung の Critical volume は「男性1500 / 女性950 cm³、または native全体積の1/3の大きい方」。",
       "Liver 700 / Renal cortex 200 cm³ も同様に native全体積の1/3との大きい方。",
-      "Contouring instructions は10分割以降（Table 8-11）の原論文記載。1-8分割には原論文に記載なし。"
+      "本データは Timmerman 2021 論文の制約表（ver 8-2021）を転記したもの。",
     ]
   },
   "organs": [
@@ -510,28 +506,28 @@ window.TIMMERMAN_DATA = {
       "fr": {
         "10": {
           "rawName": "Salivary gland (one side)",
-          "volume": "<7 cm³ / mean dose",
+          "volume": "<7 cm³ / mean",
           "volMax": "14.1 / <17.7",
           "maxPoint": "21.3",
           "endpointEn": "Xerostomia"
         },
         "15": {
           "rawName": "Salivary gland (one side)",
-          "volume": "<7 cm³ / mean dose",
+          "volume": "<7 cm³ / mean",
           "volMax": "18 / <22.5",
           "maxPoint": "27",
           "endpointEn": "Xerostomia"
         },
         "20": {
           "rawName": "Salivary gland (one side)",
-          "volume": "<7 cm³ / mean dose",
+          "volume": "<7 cm³ / mean",
           "volMax": "18 / <24",
           "maxPoint": "30",
           "endpointEn": "Xerostomia"
         },
         "30": {
           "rawName": "Salivary gland (one side)",
-          "volume": "<7 cm³ / mean dose",
+          "volume": "<7 cm³ / mean",
           "volMax": "20 / <26",
           "maxPoint": "32",
           "endpointEn": "Xerostomia"
@@ -1059,7 +1055,7 @@ window.TIMMERMAN_DATA = {
         },
         "30": {
           "rawName": "Heart/pericardium",
-          "volume": "<15 cm³ / <20% total heart volume",
+          "volume": "<15 cm³ / <20% of heart vol",
           "volMax": "60 / 40",
           "maxPoint": "68",
           "endpointEn": "Pericarditis, heart problems"
@@ -2284,7 +2280,7 @@ window.TIMMERMAN_DATA = {
           "rawName": "Growth plate (in pediatric patient)",
           "volume": null,
           "volMax": null,
-          "maxPoint": "4-6 (5%リスク) / 12 (100%リスク)",
+          "maxPoint": "4-6 (5% risk) / 12 (100% risk)",
           "endpointEn": "Growth arrest"
         }
       }

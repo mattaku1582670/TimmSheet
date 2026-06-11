@@ -30,6 +30,15 @@ TT.renderGlossary = function(container) {
     { key: "contouringJa", label: "Contouring和訳" },
   ];
 
+  function getEndpointEn(organ) {
+    var frs = TT.FRACTIONS;
+    for (var i = 0; i < frs.length; i++) {
+      var d = organ.fr && organ.fr[frs[i]];
+      if (d && d.endpointEn) return d.endpointEn;
+    }
+    return null;
+  }
+
   function updateTable() {
     tableWrap.innerHTML = "";
     tableWrap.appendChild(buildTable());
@@ -88,6 +97,13 @@ TT.renderGlossary = function(container) {
       COLS.forEach(function(col) {
         var val = organ[col.key] || "—";
         var td = TT.el("td", { textContent: val });
+        if (col.key === "endpointJa") {
+          var endpointEn = getEndpointEn(organ);
+          if (endpointEn) {
+            td.title = endpointEn;
+            td.style.cursor = "help";
+          }
+        }
         if (TT.isEdited(organ.organId) && (col.key === "organJa" || col.key === "endpointJa" || col.key === "contouringJa")) {
           td.appendChild(TT.el("span", { className: "edited-marker", textContent: " ●" }));
         }
