@@ -188,7 +188,11 @@ body {
   border: 1px solid var(--border);
   padding: 5px 7px;
   text-align: center;
-  white-space: nowrap;
+}
+.matrix-table td:not(.organ-cell) {
+  max-width: 125px;
+  white-space: normal;
+  word-break: break-all;
 }
 .matrix-table thead th {
   background: var(--surface-2);
@@ -218,6 +222,7 @@ body {
 .matrix-table tr:hover .organ-cell { background: var(--blue-pale); }
 .organ-en { font-size: 0.7rem; color: var(--text-muted); display: block; }
 .organ-ja { font-weight: 600; }
+.organ-vol { font-size: 0.68rem; color: var(--text-faint); display: block; margin-top: 2px; }
 
 /* セクション行（Serial / Parallel） */
 .section-row td {
@@ -267,6 +272,71 @@ body {
   margin-left: 4px;
 }
 .expand-btn:hover { text-decoration: underline; }
+
+/* ===== Fraction View ===== */
+.fr-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.fr-selector-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.fr-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--border-2);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.fr-btn:hover { background: var(--blue-pale); color: var(--blue); border-color: var(--blue); }
+.fr-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+.fr-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.85rem;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.fr-table th, .fr-table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+}
+.fr-table thead th {
+  background: var(--surface-2);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.fr-table tbody tr:hover > td { background: var(--blue-pale); }
+.fr-organ-cell {
+  min-width: 130px;
+  max-width: 180px;
+}
+.fr-cell {
+  max-width: 200px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.6;
+}
 
 /* ===== Contouring View ===== */
 .organ-select-wrap { margin-bottom: 14px; }
