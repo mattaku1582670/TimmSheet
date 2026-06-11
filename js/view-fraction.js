@@ -43,7 +43,8 @@ TT.renderFractionView = function(wrap, state, updateView) {
 
   sections.forEach(function(sec) {
     var secOrgans = organs.filter(function(o) { return o.type === sec.type; });
-    if (secOrgans.length === 0) return;
+    // 選択中の分割回数でデータが存在する臓器が1件もなければセクションごとスキップ
+    if (!secOrgans.some(function(o) { return o.fr && o.fr[fr]; })) return;
 
     var table = TT.el("table", { className: "fr-table" });
 

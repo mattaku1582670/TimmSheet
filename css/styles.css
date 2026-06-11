@@ -160,7 +160,7 @@ body {
 }
 .filter-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
 
-.toggle-group { display: flex; gap: 4px; margin-left: auto; }
+.toggle-group { display: flex; gap: 4px; }
 .toggle-btn {
   padding: 5px 10px;
   border: 1px solid var(--border-2);
