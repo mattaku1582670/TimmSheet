@@ -26,7 +26,7 @@ function parseVolumeStages(volStr) {
  * セル内容を td に直接書き込む
  * 表示形式: "<0.2cm³ 8Gy\nPt:10Gy" など
  */
-function buildCellContent(td, frData) {
+function buildCellContent(td, frData, skipVolume) {
   if (!frData) {
     td.textContent = "—";
     td.classList.add("cell-empty");
@@ -37,29 +37,36 @@ function buildCellContent(td, frData) {
 
   if (frData.volume === "Mean dose") {
     if (frData.volMax != null) lines.push("Mean≤" + frData.volMax + "Gy");
-    if (frData.maxPoint != null) lines.push("Pt:" + frData.maxPoint + "Gy");
+    if (frData.maxPoint != null) lines.push("Max:" + frData.maxPoint + "Gy");
   } else {
     var volStages = parseVolumeStages(frData.volume || "");
     var volMaxParts = frData.volMax != null
       ? String(frData.volMax).split(" / ")
       : [];
 
-    if (volStages.length > 0 && volMaxParts.length > 0) {
-      var n = Math.max(volStages.length, volMaxParts.length);
-      for (var i = 0; i < n; i++) {
-        var vol  = (volStages[i]   || volStages[volStages.length - 1] || "").trim();
-        var dose = (volMaxParts[i] || "").trim();
-        if (vol && dose) lines.push(vol + " " + dose + "Gy");
-        else if (dose)  lines.push(dose + "Gy");
-        else if (vol)   lines.push(vol);
+    if (skipVolume) {
+      if (volMaxParts.length > 0) {
+        volMaxParts.forEach(function(d) { if (d.trim()) lines.push(d.trim() + "Gy"); });
       }
-    } else if (volMaxParts.length > 0) {
-      volMaxParts.forEach(function(d) { if (d.trim()) lines.push(d.trim() + "Gy"); });
-    } else if (frData.other) {
-      lines.push(frData.other);
+      if (frData.other) lines.push(frData.other);
+    } else {
+      if (volStages.length > 0 && volMaxParts.length > 0) {
+        var n = Math.max(volStages.length, volMaxParts.length);
+        for (var i = 0; i < n; i++) {
+          var vol  = (volStages[i]   || volStages[volStages.length - 1] || "").trim();
+          var dose = (volMaxParts[i] || "").trim();
+          if (vol && dose) lines.push(vol + " " + dose + "Gy");
+          else if (dose)  lines.push(dose + "Gy");
+          else if (vol)   lines.push(vol);
+        }
+      } else if (volMaxParts.length > 0) {
+        volMaxParts.forEach(function(d) { if (d.trim()) lines.push(d.trim() + "Gy"); });
+      } else if (frData.other) {
+        lines.push(frData.other);
+      }
     }
 
-    if (frData.maxPoint != null) lines.push("Pt:" + frData.maxPoint + "Gy");
+    if (frData.maxPoint != null) lines.push("Max:" + frData.maxPoint + "Gy");
   }
 
   if (lines.length === 0) {
@@ -73,6 +80,18 @@ function buildCellContent(td, frData) {
     if (i > 0) td.appendChild(document.createElement("br"));
     td.appendChild(document.createTextNode(line));
   });
+}
+
+function getCommonVolume(organ) {
+  var frs = TT.FRACTIONS;
+  var first = null;
+  for (var i = 0; i < frs.length; i++) {
+    var d = organ.fr && organ.fr[frs[i]];
+    if (!d) continue;
+    if (first === null) { first = d.volume || null; }
+    else if (d.volume !== first) return null;
+  }
+  return first;
 }
 
 /**
@@ -100,8 +119,12 @@ TT.renderMatrix = function(container) {
     style: "margin-left:auto"
   });
 
+  var modeMatrix = TT.el("button", { className: "toggle-btn active", textContent: "マトリクス表示" });
+  var modeFr     = TT.el("button", { className: "toggle-btn",        textContent: "分割回数別" });
+  var modeToggle = TT.el("div", { className: "toggle-group" }, modeMatrix, modeFr);
+
   var toolbar = TT.el("div", { className: "toolbar" },
-    searchInput, filterBtns, exportBtn
+    modeToggle, searchInput, filterBtns, exportBtn
   );
   container.appendChild(toolbar);
 
@@ -110,12 +133,25 @@ TT.renderMatrix = function(container) {
   container.appendChild(wrap);
 
   // 状態
-  var state = { query: "", filter: "all", expanded: {} };
+  var state = { query: "", filter: "all", expanded: {}, mode: "matrix", fraction: "1" };
 
   // --- イベント ---
+  modeMatrix.addEventListener("click", function() {
+    state.mode = "matrix";
+    modeMatrix.classList.add("active");
+    modeFr.classList.remove("active");
+    updateView();
+  });
+  modeFr.addEventListener("click", function() {
+    state.mode = "fraction";
+    modeFr.classList.add("active");
+    modeMatrix.classList.remove("active");
+    updateView();
+  });
+
   searchInput.addEventListener("input", function() {
     state.query = this.value;
-    updateTable();
+    updateView();
   });
   [filterAll, filterSerial, filterPar].forEach(function(btn) {
     btn.addEventListener("click", function() {
@@ -123,16 +159,20 @@ TT.renderMatrix = function(container) {
       filterBtns.querySelectorAll(".filter-btn").forEach(function(b) {
         b.classList.toggle("active", b === btn);
       });
-      updateTable();
+      updateView();
     });
   });
   exportBtn.addEventListener("click", function() {
     TT.exportDataJs();
   });
 
-  function updateTable() {
+  function updateView() {
     wrap.innerHTML = "";
-    wrap.appendChild(buildTable());
+    if (state.mode === "fraction") {
+      TT.renderFractionView(wrap, state, updateView);
+    } else {
+      wrap.appendChild(buildTable());
+    }
   }
 
   function buildTable() {
@@ -198,6 +238,8 @@ TT.renderMatrix = function(container) {
       tbody.appendChild(secRow);
 
       secOrgans.forEach(function(organ) {
+        var commonVol = (organ.type === "parallel") ? getCommonVolume(organ) : null;
+
         // 本体行
         var tr = TT.el("tr", { "data-organ-id": organ.organId });
 
@@ -205,6 +247,9 @@ TT.renderMatrix = function(container) {
         var nameCell = TT.el("td", { className: "organ-cell" });
         nameCell.appendChild(TT.el("span", { className: "organ-ja", textContent: organ.organJa }));
         nameCell.appendChild(TT.el("span", { className: "organ-en", textContent: organ.organEn }));
+        if (commonVol) {
+          nameCell.appendChild(TT.el("span", { className: "organ-vol", textContent: "Critical vol: " + commonVol }));
+        }
         if (TT.isEdited(organ.organId)) {
           nameCell.appendChild(TT.el("span", { className: "edited-marker", title: "編集済み", textContent: "●" }));
         }
@@ -216,7 +261,7 @@ TT.renderMatrix = function(container) {
         expandBtn.addEventListener("click", function(e) {
           e.stopPropagation();
           state.expanded[organ.organId] = !state.expanded[organ.organId];
-          updateTable();
+          updateView();
         });
         nameCell.appendChild(expandBtn);
         tr.appendChild(nameCell);
@@ -227,7 +272,7 @@ TT.renderMatrix = function(container) {
           var cls = isLong && i === 6 ? "col-divider" : "";
           var frData = organ.fr && organ.fr[fr];
           var td = TT.el("td", { className: cls });
-          buildCellContent(td, frData || null);
+          buildCellContent(td, frData || null, !!commonVol);
           tr.appendChild(td);
         });
 
@@ -281,7 +326,7 @@ TT.renderMatrix = function(container) {
     var editWrap = TT.el("div", { style: "padding:8px 10px;" });
     var editBtn = TT.el("button", { className: "edit-btn", textContent: "和訳を編集…" });
     editBtn.addEventListener("click", function() {
-      TT.openEditor(organ.organId, function() { updateTable(); });
+      TT.openEditor(organ.organId, function() { updateView(); });
     });
     editWrap.appendChild(editBtn);
     tbl.appendChild(editWrap);
@@ -290,5 +335,5 @@ TT.renderMatrix = function(container) {
   }
 
   // 初期描画
-  updateTable();
+  updateView();
 };
