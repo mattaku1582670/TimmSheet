@@ -1,0 +1,13 @@
+# 内部ドキュメント・原論文（公開しない）
+docs/superpowers/
+docs/spec.md
+docs/Timmerman.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
