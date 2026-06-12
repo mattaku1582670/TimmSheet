@@ -132,6 +132,21 @@ TT.renderMatrix = function(container) {
   var wrap = TT.el("div", { className: "matrix-wrap" });
   container.appendChild(wrap);
 
+  function syncStickyOffsets() {
+    var frSelector = wrap.querySelector(".fr-selector");
+    container.style.setProperty("--toolbar-sticky-height", toolbar.offsetHeight + "px");
+    container.style.setProperty(
+      "--fr-selector-sticky-height",
+      frSelector ? frSelector.offsetHeight + "px" : "0px"
+    );
+  }
+
+  var stickyResizeObserver = typeof ResizeObserver !== "undefined"
+    ? new ResizeObserver(syncStickyOffsets)
+    : null;
+  if (stickyResizeObserver) stickyResizeObserver.observe(toolbar);
+  window.addEventListener("resize", syncStickyOffsets);
+
   // 状態
   var state = { query: "", filter: "all", expanded: {}, mode: "matrix", fraction: "1" };
 
@@ -172,6 +187,13 @@ TT.renderMatrix = function(container) {
       TT.renderFractionView(wrap, state, updateView);
     } else {
       wrap.appendChild(buildTable());
+    }
+    syncStickyOffsets();
+    if (stickyResizeObserver) {
+      stickyResizeObserver.disconnect();
+      stickyResizeObserver.observe(toolbar);
+      var frSelector = wrap.querySelector(".fr-selector");
+      if (frSelector) stickyResizeObserver.observe(frSelector);
     }
   }
 
