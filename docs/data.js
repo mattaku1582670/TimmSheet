@@ -2119,43 +2119,43 @@ window.TIMMERMAN_DATA = {
         "1": {
           "rawName": "Penile bulb",
           "volume": "<3 cm³",
-          "volMax": null,
-          "maxPoint": "16",
+          "volMax": "16",
+          "maxPoint": null,
           "endpointEn": "Erectile dysfunction"
         },
         "2": {
           "rawName": "Penile bulb",
           "volume": "<3 cm³",
-          "volMax": null,
-          "maxPoint": "20.5",
+          "volMax": "20.5",
+          "maxPoint": null,
           "endpointEn": "Erectile dysfunction"
         },
         "3": {
           "rawName": "Penile bulb",
           "volume": "<3 cm³",
-          "volMax": null,
-          "maxPoint": "25",
+          "volMax": "25",
+          "maxPoint": null,
           "endpointEn": "Erectile dysfunction"
         },
         "4": {
           "rawName": "Penile bulb",
           "volume": "<3 cm³",
-          "volMax": null,
-          "maxPoint": "27",
+          "volMax": "27",
+          "maxPoint": null,
           "endpointEn": "Erectile dysfunction"
         },
         "5": {
           "rawName": "Penile bulb",
           "volume": "<3 cm³",
-          "volMax": null,
-          "maxPoint": "30",
+          "volMax": "30",
+          "maxPoint": null,
           "endpointEn": "Erectile dysfunction"
         },
         "8": {
           "rawName": "Penile bulb",
           "volume": "<3 cm³",
-          "volMax": null,
-          "maxPoint": "35",
+          "volMax": "35",
+          "maxPoint": null,
           "endpointEn": "Erectile dysfunction"
         },
         "10": {
@@ -2199,43 +2199,43 @@ window.TIMMERMAN_DATA = {
         "1": {
           "rawName": "Femoral heads",
           "volume": "<10 cm³",
-          "volMax": null,
-          "maxPoint": "15",
+          "volMax": "15",
+          "maxPoint": null,
           "endpointEn": "Necrosis"
         },
         "2": {
           "rawName": "Femoral heads",
           "volume": "<10 cm³",
-          "volMax": null,
-          "maxPoint": "19.5",
+          "volMax": "19.5",
+          "maxPoint": null,
           "endpointEn": "Necrosis"
         },
         "3": {
           "rawName": "Femoral heads",
           "volume": "<10 cm³",
-          "volMax": null,
-          "maxPoint": "24",
+          "volMax": "24",
+          "maxPoint": null,
           "endpointEn": "Necrosis"
         },
         "4": {
           "rawName": "Femoral heads",
           "volume": "<10 cm³",
-          "volMax": null,
-          "maxPoint": "27",
+          "volMax": "27",
+          "maxPoint": null,
           "endpointEn": "Necrosis"
         },
         "5": {
           "rawName": "Femoral heads",
           "volume": "<10 cm³",
-          "volMax": null,
-          "maxPoint": "30",
+          "volMax": "30",
+          "maxPoint": null,
           "endpointEn": "Necrosis"
         },
         "8": {
           "rawName": "Femoral heads",
           "volume": "<10 cm³",
-          "volMax": null,
-          "maxPoint": "35",
+          "volMax": "35",
+          "maxPoint": null,
           "endpointEn": "Necrosis"
         },
         "10": {

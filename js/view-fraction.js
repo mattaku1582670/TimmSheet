@@ -90,7 +90,11 @@ TT.renderFractionView = function(wrap, state, updateView) {
 
       // Volume max セル
       var volMaxCell = TT.el("td", { className: "fr-cell" });
-      frFillMultiStage(volMaxCell, frData.volMax, " Gy");
+      if ("other" in frData) {
+        frFillMultiStage(volMaxCell, frData.volMax, " Gy ( " + frData.other + " )");
+      } else {
+        frFillMultiStage(volMaxCell, frData.volMax, " Gy");
+      }
       tr.appendChild(volMaxCell);
 
       // Max point dose セル
